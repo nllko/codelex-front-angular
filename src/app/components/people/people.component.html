@@ -1,0 +1,15 @@
+<div *ngIf = "loading" class="container d-flex justify-content-center p-2">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <div class="p-2">
+    Loading...
+  </div>
+</div>
+
+
+<app-people-table
+  [loading]="loading"
+  [page]="page"
+  [peopleWithPagination]="peopleApiResponse$ | async">
+</app-people-table>

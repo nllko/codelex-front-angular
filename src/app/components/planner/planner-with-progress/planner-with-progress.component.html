@@ -1,0 +1,39 @@
+<section class="planner-section">
+  <h1 class="planner-title">Planner with progress</h1>
+
+  <div class="planner-container">
+    <div class="planner">
+      <div class="planner-action-container">
+        <input [(ngModel)]="inputValue"
+               (keydown.enter)="addTask()"
+               class="planner-task-input"
+               type="text"
+               placeholder="Add new task..."/>
+        <button (click)="addTask()" class="planner-btn-add">
+          Add
+        </button>
+      </div>
+      <ngb-progressbar type="success" [value]="progressProcent" [striped]="true" [animated]="true" ></ngb-progressbar>
+      <div *ngFor="let task of filteredTasks ;" class="planner-task">
+        <div class="task-item">
+          <input (change)="toggleTaskDone($event, task.id)"
+                 [checked]="task.done"
+                 class="planner-task-checkbox"
+                 type="checkbox"
+          />
+        </div>
+        <div class="task-item">
+          <p [ngClass]="{'task-done': task.done}">{{task.text}}</p>
+        </div>
+      </div>
+
+      <div class="planner-filter-btn-container">
+        <button class="btn-2" (click)="setTaskFilter(plannerTaskFilterEnum.All)">All</button>
+        <button class="btn-2" (click)="setTaskFilter(plannerTaskFilterEnum.InProgress)">In progress</button>
+        <button class="btn-2" (click)="setTaskFilter(plannerTaskFilterEnum.Completed)">Done</button>
+      </div>
+
+    </div>
+  </div>
+
+</section>

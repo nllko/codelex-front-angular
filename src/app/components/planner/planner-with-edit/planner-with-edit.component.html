@@ -1,0 +1,55 @@
+<section class="planner-section">
+  <h1 class="planner-title">Planner with edit</h1>
+
+  <div class="planner-container">
+    <div class="planner">
+      <div class="planner-action-container">
+        <input [(ngModel)]="inputValue"
+               (keydown.enter)="addTask()"
+               class="planner-task-input"
+               type="text"
+               placeholder="Add new task..."/>
+        <button (click)="addTask()" class="planner-btn-add">
+          Add
+        </button>
+      </div>
+      <ngb-progressbar type="success" [value]="progressProcent" [striped]="true" [animated]="true" ></ngb-progressbar>
+      <div *ngFor="let task of filteredTasks;"  class="planner-task">
+        <div *ngIf="task.inEdit===false" class="normal-container">
+          <div class="task-item">
+            <input (change)="toggleTaskDone($event, task.id)"
+                   [checked]="task.done"
+                   class="planner-task-checkbox"
+                   type="checkbox"
+            />
+          </div>
+          <div class="task-item">
+            <p [ngClass]="{'task-done': task.done}">{{task.text}}</p>
+          </div>
+          <div class="btn-container">
+            <button class="edit-btn" *ngIf="checkCanEdit()" (click)="task.inEdit=true">✏️</button>
+            <button class="edit-btn-gray hovertext" *ngIf="!checkCanEdit()" data-hover="You can edit only 1 element at a time">✏️</button>
+            <button class="delete-btn" (click)="deleteTask(task.id)">X</button>
+          </div>
+        </div>
+        <div class="edit-container" *ngIf="task.inEdit===true">
+          <input [(ngModel)]="newValue"
+                 (keydown.enter)="editTask(task.id)"
+                 class="editable-text"
+                 type="text"
+                 placeholder={{task.text}}/>
+          <button class="save-btn" (click)="editTask(task.id)">Save</button>
+          <button class="delete-btn" (click)="task.inEdit=false; newValue=''" >Cancel</button>
+        </div>
+      </div>
+
+      <div class="planner-filter-btn-container">
+        <button class="btn-2" (click)="setTaskFilter(plannerTaskFilterEnum.All)">All</button>
+        <button class="btn-2" (click)="setTaskFilter(plannerTaskFilterEnum.InProgress)">In progress</button>
+        <button class="btn-2" (click)="setTaskFilter(plannerTaskFilterEnum.Completed)">Done</button>
+      </div>
+
+    </div>
+  </div>
+
+</section>

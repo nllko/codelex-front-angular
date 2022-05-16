@@ -1,0 +1,14 @@
+<div *ngIf="character" class="card">
+  <div class="card-header">
+    <img [src]="character.image" alt="image" class="card-image">
+  </div>
+  <div class="card-description">
+    <b>{{character.name}}</b>
+    <p>Species:  {{character.species}}</p>
+    <p>Created: {{character.created|date}}</p>
+  </div>
+  <div class="card-action">
+    <a [routerLink]="['/characters',character.id]" class="read-more-btn">Read More</a>
+  </div>
+
+</div>

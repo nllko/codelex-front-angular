@@ -1,0 +1,71 @@
+<section class="planner-section">
+  <h1 class="planner-title">Planner with priority</h1>
+
+  <div class="planner-container">
+    <div class="planner">
+      <div class="planner-action-container">
+        <input [(ngModel)]="inputValue"
+               (keydown.enter)="addTask()"
+               class="planner-task-input"
+               type="text"
+               placeholder="Add new task..."/>
+        <div>
+          <select [(ngModel)]="selectedOption">
+            <option [value]="option.name" *ngFor="let option of options">{{option.name}}</option>
+          </select>
+        </div>
+        <button (click)="addTask()" class="planner-btn-add">
+          Add
+        </button>
+      </div>
+      <ngb-progressbar type="success" [value]="progressProcent" [striped]="true" [animated]="true" ></ngb-progressbar>
+      <div *ngFor="let task of filteredTasks;"  class="planner-task">
+        <div *ngIf="task.inEdit===false" [ngClass]="{'high-priority':task.priority==='High','medium-priority':task.priority==='Medium','low-priority':task.priority==='Low'}">
+          <div class="task-item">
+            <input (change)="toggleTaskDone($event, task.id)"
+                   [checked]="task.done"
+                   class="planner-task-checkbox"
+                   type="checkbox"
+            />
+          </div>
+          <div class="task-item">
+            <p [ngClass]="{'task-done': task.done}">{{task.text}}</p>
+          </div>
+          <div class="btn-container">
+            <span [ngClass]="{'high-priority-container':task.priority==='High','medium-priority-container':task.priority==='Medium','low-priority-container':task.priority==='Low'}">{{task.priority}}</span>
+            <button class="edit-btn" *ngIf="checkCanEdit()" (click)="task.inEdit=true">✏️</button>
+            <button class="edit-btn-gray hovertext" *ngIf="!checkCanEdit()" data-hover="You can edit only 1 element at a time">✏️</button>
+            <button class="delete-btn" (click)="deleteTask(task.id)">X</button>
+          </div>
+        </div>
+        <div class="edit-container" *ngIf="task.inEdit===true">
+          <input [(ngModel)]="newValue"
+                 (keydown.enter)="editTask(task.id)"
+                 class="editable-text"
+                 type="text"
+                 placeholder={{task.text}}/>
+          <button class="save-btn" (click)="editTask(task.id)">Save</button>
+          <button class="delete-btn" (click)="task.inEdit=false; newValue=''" >Cancel</button>
+        </div>
+      </div>
+
+      <div>
+        <mat-button-toggle-group multiple="true" appearance="legacy" name="fontStyle" aria-label="Font Style" class="toggle-buttons-group">
+          <mat-button-toggle #bt1 [ngClass]="{'toggle-buttons-on':bt1.checked}" (click)="priorityFilter[0].status=bt1.checked" class="toggle-buttons">High</mat-button-toggle>
+          <mat-button-toggle #bt2 [ngClass]="{'toggle-buttons-on':bt2.checked}" (click)="priorityFilter[1].status=bt2.checked" class="toggle-buttons">Medium</mat-button-toggle>
+          <mat-button-toggle #bt3 [ngClass]="{'toggle-buttons-on':bt3.checked}" (click)="priorityFilter[2].status=bt3.checked" class="toggle-buttons">Low</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+
+
+      <div class="planner-filter-btn-container">
+        <button class="btn-2" (click)="setTaskFilter(plannerTaskFilterEnum.All)">All</button>
+        <button class="btn-2" (click)="setTaskFilter(plannerTaskFilterEnum.InProgress)">In progress</button>
+        <button class="btn-2" (click)="setTaskFilter(plannerTaskFilterEnum.Completed)">Done</button>
+      </div>
+
+    </div>
+  </div>
+
+</section>

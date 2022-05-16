@@ -1,0 +1,56 @@
+<section class="login-form-section">
+  <h1>Sign Up</h1>
+  <div class="login-form-container">
+    <form [formGroup]="signUpForm" class="login-form">
+      <div class="form-item">
+        <label for="email">Email</label>
+        <input class="form-item-input"
+               [ngClass]="{'input-error':signUpForm.controls['email'].touched &&signUpForm.controls['email'].invalid}"
+               formControlName="email"
+               id="email" type="text"/>
+        <small class="form-error"
+               *ngIf="signUpForm.controls['email'].touched &&signUpForm.controls['email'].hasError('required')">
+          This field is required
+        </small>
+        <small class="form-error"
+               *ngIf="signUpForm.controls['email'].touched &&signUpForm.controls['email'].hasError('email')">
+          Bad email format
+        </small>
+      </div>
+      <div class="form-item">
+        <label for="password">Password</label>
+        <input [ngClass]="{'input-error':signUpForm.controls['password'].touched &&signUpForm.controls['password'].invalid}"
+               class="form-item-input"
+               formControlName="password"
+               id="password"
+               type="password"/>
+        <small class="form-error"
+               *ngIf="signUpForm.controls['password'].touched &&signUpForm.controls['password'].hasError('required')">
+          This field is required
+        </small>
+      </div>
+      <div class="form-select-container">
+        <select class="form-select" formControlName="country">
+          <option [value]="''" disabled>Choose a country</option>
+          <option *ngFor="let country of countries" [value]="country.countryCode">{{country.title}}</option>
+        </select>
+      </div>
+      <div class="form-item-radio">
+
+        <label *ngFor="let gender of genders">
+          <input formControlName="gender" type="radio" name="gender" [value]="gender"/>
+          {{gender}}
+        </label>
+      </div>
+      <label>
+        <input formControlName="robot" type="checkbox"/>
+        I am not a robot
+      </label>
+
+      <div class="login-btn-container">
+        <button class="login-btn" (click)="signUp()">Submit</button>
+      </div>
+    </form>
+  </div>
+</section>
+
